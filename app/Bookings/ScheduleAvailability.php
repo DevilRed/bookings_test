@@ -2,6 +2,7 @@
 namespace App\Bookings;
 
 use App\Models\Employee;
+use App\Models\ScheduleExclusion;
 use App\Models\Service;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -25,8 +26,13 @@ class ScheduleAvailability
         collect(CarbonPeriod::create($startsAt, $endsAt)->days())
             ->each(function ($date) {
                 $this->addAvailabilityFromSchedule($date);
+                $this->employee->schedulesExclusions()->each(function (ScheduleExclusion $exclusion) {
+                    $this->subtractScheduleExclusion($exclusion);
+                });
             });
-        dd($this->periods);
+        foreach($this->periods as $period) {
+            dump($period->asString());
+        }
     }
 
     /**
@@ -55,6 +61,18 @@ class ScheduleAvailability
                 // take into account the service duration time to avoid inconsistencies and give wrong time periods
                 $date->copy()->setTimeFromTimeString($endsAt)->subMinutes($this->service->duration),
                 Precision::MINUTE()
+            )
+        );
+    }
+
+    protected function subtractScheduleExclusion(ScheduleExclusion $exclusion): void
+    {
+        $this->periods = $this->periods->subtract(
+            Period::make(
+                $exclusion->starts_at,
+                $exclusion->ends_at,
+                Precision::MINUTE(),
+                Boundaries::EXCLUDE_END()
             )
         );
     }
