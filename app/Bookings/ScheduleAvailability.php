@@ -29,6 +29,8 @@ class ScheduleAvailability
                 $this->employee->schedulesExclusions()->each(function (ScheduleExclusion $exclusion) {
                     $this->subtractScheduleExclusion($exclusion);
                 });
+
+                $this->excludeTimePassedToday();
             });
         foreach($this->periods as $period) {
             dump($period->asString());
@@ -73,6 +75,18 @@ class ScheduleAvailability
                 $exclusion->ends_at,
                 Precision::MINUTE(),
                 Boundaries::EXCLUDE_END()
+            )
+        );
+    }
+
+    protected function excludeTimePassedToday(): void
+    {
+        $this->periods = $this->periods->subtract(
+            Period::make(
+                now()->startOfDay(),
+                now()->endOfHour(),
+                Precision::MINUTE(),
+                Boundaries::EXCLUDE_START()
             )
         );
     }
