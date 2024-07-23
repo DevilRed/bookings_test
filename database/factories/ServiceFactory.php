@@ -17,7 +17,7 @@ class ServiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $title = 'Hair',
+            'name' => $title = 'Hair',
             'slug' => str()->slug($title),
             'price' => 2000
         ];

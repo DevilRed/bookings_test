@@ -20,6 +20,12 @@ class ScheduleAvailability
         $this->periods = new PeriodCollection();
     }
 
+    /**
+     * Get the available period for given time, all operations are working over periods property
+     * @param Carbon $startsAt
+     * @param Carbon $endsAt
+     * @return PeriodCollection
+     */
     public function forPeriod(Carbon $startsAt, Carbon $endsAt)
     {
         // use collect to iterate over the days of a period to check if an employee is available on that day
@@ -32,13 +38,12 @@ class ScheduleAvailability
 
                 $this->excludeTimePassedToday();
             });
-        foreach($this->periods as $period) {
-            dump($period->asString());
-        }
+        return $this->periods;
     }
 
     /**
      * Check if an employee can work on given days
+     * If so, set availability over periods property
      * @param Carbon $date
      * @return void
      */
@@ -67,6 +72,11 @@ class ScheduleAvailability
         );
     }
 
+    /**
+     * Subtract the service duration
+     * @param ScheduleExclusion $exclusion
+     * @return void
+     */
     protected function subtractScheduleExclusion(ScheduleExclusion $exclusion): void
     {
         $this->periods = $this->periods->subtract(
@@ -79,6 +89,10 @@ class ScheduleAvailability
         );
     }
 
+    /**
+     * Exclude time already passed from current day
+     * @return void
+     */
     protected function excludeTimePassedToday(): void
     {
         $this->periods = $this->periods->subtract(
