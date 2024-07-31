@@ -34,10 +34,22 @@ class ServiceSlotAvailability
             }
             // remove appointments from the period collection
             // add the available employees to the range
-            // remove empty slots
         });
+        // remove empty slots
+        $range = $this->removeEmptySlots($range);
 
         return $range;
+    }
+
+    public function removeEmptySlots(Collection $range): Collection
+    {
+        return $range->filter(function (Date $date) {
+            // filter slots with available employees
+            $date->slots = $date->slots->filter(function (Slot $slot) {
+                return $slot->hasEmployees();
+            });
+            return true;
+        });
     }
 
 
