@@ -34,7 +34,7 @@ class ServiceSlotAvailability
             $periods = (new ScheduleAvailability($employee, $this->service))
                 ->forPeriod($startsAt, $endsAt);
             // remove already booked appointments from availability list
-            $this->removeAppointments($periods, $employee);
+            $periods = $this->removeAppointments($periods, $employee);
             foreach ($periods as $period) {
                 $this->addAvailableEmployeeForPeriod($range, $period, $employee);
             }
@@ -49,17 +49,18 @@ class ServiceSlotAvailability
 
     public function removeAppointments(PeriodCollection $period, Employee $employee)
     {
-        $employee->appointments->whereNull('cancelled_at')->each(function (Appointment $appointment) use ($period) {
+        $employee->appointments->whereNull('cancelled_at')->each(function (Appointment $appointment) use (&$period) {
             $period = $period->subtract(
                 Period::make(
                 // take into account the length of the appointment
-                    $appointment->starts_at->copy()->subMinutes($this->service->duration)->addMinutes(1),
+                    $appointment->starts_at->copy()->subMinutes($this->service->duration)->addMinute(),
                     $appointment->end_at,
                     Precision::MINUTE(),
                     Boundaries::EXCLUDE_ALL()
                 )
             );
         });
+        return $period;
     }
 
     public function removeEmptySlots(Collection $range): Collection
