@@ -1,12 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" contents=ie-edge"">
-    <title>Bookings</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
-    {{ $slot }}
+    <div class="max-w-4xl mx-auto my-12 px-6">
+        {{ $slot }}
+    </div>
 </body>
 </html>

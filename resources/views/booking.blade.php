@@ -1,3 +1,3 @@
 <x-app-layout>
-    bookings
+    <span class="text-3xl font-bold underline">bookings</span>
 </x-app-layout>
