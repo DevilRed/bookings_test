@@ -22,8 +22,22 @@
     </div>
     <div>
         <h2 class="text-xl font-medium mt-3">1. When for?</h2>
-        <div>
-            calendar
+        <div
+            x-data="{
+                picker: null,
+            }"
+            x-init="
+                this.picker = new easepick.create({
+                    element: $refs.date,
+                    readonly: true,
+                    zIndex: 50,
+                    css: [
+                        'https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css'
+                    ]
+                })
+            "
+        >
+            <input x-ref="date" type="text" class="mt-6 bg-slate-100 text-sm border-0 rounded-lg px-6 py-4 w-full" placeholder="choose a date" />
         </div>
     </div>
 </x-app-layout>
