@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
+            // to identify appointments on the client side
             $table->uuid();
             $table->foreignId('service_id')->constrained();
             $table->foreignId('employee_id')->constrained();

@@ -17,6 +17,7 @@ class AppointmentFactory extends Factory
     public function definition(): array
     {
         return [
+            // when testing time is gonna set manually
             'name' => $this->faker->firstName(),
             'email' => $this->faker->email(),
         ];

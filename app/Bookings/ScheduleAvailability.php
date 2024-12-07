@@ -21,7 +21,7 @@ class ScheduleAvailability
     }
 
     /**
-     * Get the available period for given time, all operations are working over periods property
+     * Get the available period (collection of dates) for given time, all operations are working over periods property
      * @param Carbon $startsAt
      * @param Carbon $endsAt
      * @return PeriodCollection
@@ -65,7 +65,7 @@ class ScheduleAvailability
             Period::make(
                 // use copy() to not mutate the value of the current date
                 $date->copy()->setTimeFromTimeString($startsAt),
-                // take into account the service duration time to avoid inconsistencies and give wrong time periods
+                // take into account the service duration time to avoid inconsistencies and give wrong time periods, an employee cannot start working at the last time
                 $date->copy()->setTimeFromTimeString($endsAt)->subMinutes($this->service->duration),
                 Precision::MINUTE()
             )
