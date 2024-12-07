@@ -6,7 +6,7 @@ use App\Models\Employee;
 use App\Models\Service;
 use App\Bookings\Date;
 
-class CheckoutContoller extends Controller
+class CheckoutController extends Controller
 {
     public function __invoke(Employee  $employee, Service $service)
     {
