@@ -63,11 +63,30 @@
                         })
                     }
                 })
+                // trigger event handler
+                this.picker.on('select', () => {
+                    $dispatch('slots-requested');
+                });
+
+                // on page load, select a date
+                $nextTick(() => {
+                    this.picker.trigger('select', { date: '{{ $firstAvailableDate }}' });
+                });
             "
         >
             <input x-ref="date" type="text" class="mt-6 bg-slate-100 text-sm border-0 rounded-lg px-6 py-4 w-full" placeholder="choose a date" />
         </div>
-        <div>
+        <!-- event handler to request slots: x-on:slots-request.window  -->
+        <div
+            x-data="{
+                slots: [],
+                fetchSlots(event) {
+                    console.log('fetch slots');
+                }
+            }"
+
+            x-on:slots-requested.window="fetchSlots(event)"
+        >
             <h2 class="text-xl font-medium mt-3">2. Choose a time slot</h2>
             <div class="mt-6">
                 slots
