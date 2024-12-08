@@ -67,5 +67,11 @@
         >
             <input x-ref="date" type="text" class="mt-6 bg-slate-100 text-sm border-0 rounded-lg px-6 py-4 w-full" placeholder="choose a date" />
         </div>
+        <div>
+            <h2 class="text-xl font-medium mt-3">2. Choose a time slot</h2>
+            <div class="mt-6">
+                slots
+            </div>
+        </div>
     </div>
 </x-app-layout>
