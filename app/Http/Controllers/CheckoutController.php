@@ -17,6 +17,8 @@ class CheckoutController extends Controller
                 now()->startOfDay(),
                 now()->addMonth()->endOfDay(),
             );
+        // abort if employee doesn't have availability
+        abort_if($availability === false, 404);
         $firstAvailableDate = $availability->firstAvailableDate()->date->toDateString();
         $availableDates = $availability
             ->hasSlots()

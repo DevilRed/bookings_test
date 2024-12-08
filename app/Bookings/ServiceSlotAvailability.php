@@ -28,8 +28,9 @@ class ServiceSlotAvailability
     public function forPeriod(Carbon $startsAt, Carbon $endsAt)
     {
         $range = (new SlotRangeGenerator($startsAt, $endsAt))->generate($this->service->duration);
+        $periods = [];
 
-        $this->employees->each(function (Employee $employee) use ($startsAt, $endsAt, &$range) {
+        $this->employees->each(function (Employee $employee) use ($startsAt, $endsAt, &$range, &$periods) {
             // get the availability for the employee
             $periods = (new ScheduleAvailability($employee, $this->service))
                 ->forPeriod($startsAt, $endsAt);
@@ -41,6 +42,9 @@ class ServiceSlotAvailability
             // remove appointments from the period collection
             // add the available employees to the range
         });
+        if ($periods->isEmpty()) {
+            return false;
+        }
         // remove empty slots
         $range = $this->removeEmptySlots($range);
 
