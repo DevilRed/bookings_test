@@ -1,5 +1,12 @@
 <x-app-layout>
-    <div class="space-y-6">
+    <div
+        class="space-y-12"
+        x-data="{
+            form: {
+                date: null
+            }
+        }"
+    >
         <div>
             <h2 class="text-xl font-medium mt-3">Here's what you're booking</h2>
             <div class="flex mt-6 space-x-3 bg-slate-100 rounded-lg p-4">
@@ -64,7 +71,8 @@
                     }
                 })
                 // trigger event handler
-                this.picker.on('select', () => {
+                this.picker.on('select', (e) => {
+                    form.date = e.detail.date;
                     $dispatch('slots-requested');
                 });
 
