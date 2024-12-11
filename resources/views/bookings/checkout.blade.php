@@ -1,11 +1,11 @@
 <x-app-layout>
     <div
-        class="space-y-12"
         x-data="{
             form: {
                 date: null
             }
         }"
+        class="space-y-12"
     >
         <div>
             <h2 class="text-xl font-medium mt-3">Here's what you're booking</h2>
@@ -26,7 +26,6 @@
                 </div>
             </div>
         </div>
-    </div>
     <div>
         <h2 class="text-xl font-medium mt-3">1. When for?</h2>
         <div
@@ -72,7 +71,10 @@
                 })
                 // trigger event handler
                 this.picker.on('select', (e) => {
-                    form.date = e.detail.date;
+                    // save e.detail.date from calendar into form variable from a parent element
+                    form.date = new easepick.DateTime(e.detail.date).format('YYYY-MM-DD');
+
+                    // dispatch event bound to fetch slots
                     $dispatch('slots-requested');
                 });
 
@@ -89,7 +91,12 @@
             x-data="{
                 slots: [],
                 fetchSlots(event) {
-                    console.log('fetch slots');
+                    axios.get(`{{ route('slots', [$employee, $service]) }}?date=${form.date}`)
+                        .then((response) => {
+                            //console.log(response);
+                            this.slots = response.data.times;
+                        })
+                    ;
                 }
             }"
 
@@ -100,5 +107,6 @@
                 slots
             </div>
         </div>
+    </div>
     </div>
 </x-app-layout>
