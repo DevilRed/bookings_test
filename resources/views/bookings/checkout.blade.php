@@ -12,7 +12,9 @@
                 email: null,
             },
             submit() {
-                console.log('submit');
+                axios.post('{{ route('appointments') }}', this.form).then((response) => {
+                    console.log(response.data);
+                })
             }
         }"
         class="space-y-12"
