@@ -1,5 +1,7 @@
 <x-app-layout>
-    <div
+    <form
+        {{-- custom event to prevent default behavior --}}
+        x-on:submit.prevent="submit"
         x-data="{
             form: {
                 employee: {{ $employee->id }},
@@ -8,6 +10,9 @@
                 time: null,
                 name: null,
                 email: null,
+            },
+            submit() {
+                console.log('submit');
             }
         }"
         class="space-y-12"
@@ -132,5 +137,5 @@
             </div>
         </div>
     </div>
-    </div>
+    </form>
 </x-app-layout>
