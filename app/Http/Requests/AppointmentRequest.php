@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Employee;
 use App\Models\Service;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -17,11 +18,17 @@ class AppointmentRequest extends FormRequest
         return true;
     }
 
+    /**
+     * from checkout template date, time are sent
+     * @return void
+     */
     public function prepareForValidation ()
     {
+        $service = Service::find($this->service_id);
         $this->merge([
-            'starts_at' => '10:00:00',
-            'ends_at' => '10:30:00',
+            'starts_at' => $date = Carbon::parse($this->date)->setTimeFromTimeString($this->time),
+            // add service duration on start date
+            'ends_at' => $date->copy()->addMinutes($service->duration),
         ]);
     }
 
