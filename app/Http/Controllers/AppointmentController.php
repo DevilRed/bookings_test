@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
-use Illuminate\Http\Request;
+use App\Http\Requests\AppointmentRequest;
+use App\Models\Appointment;
 
 class AppointmentController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(AppointmentRequest $request)
     {
-        \Log::info($request->only('employee','service', 'date', 'time', 'name', 'email'));
+        \Log::info(
+            $request->only('employee_id', 'service_id', 'starts_at', 'ends_at', 'name', 'email')
+        );
+        /*Appointment::create(
+            $request->only('employee_id', 'service_id', 'starts_at', 'ends_at', 'name', 'email')
+        );*/
     }
 }
