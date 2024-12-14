@@ -12,10 +12,18 @@
                 email: null,
             },
             submit() {
-                //console.log(this.form);
-                axios.post('{{ route('appointments') }}', this.form).then((response) => {
+                axios.post('{{ route('appointments') }}', this.form, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                .then((response) => {
                     console.log(response.data);
                 })
+                .catch((error) => {
+                    console.error('Error:', error.response ? error.response.data : error);
+                });
             }
         }"
         class="space-y-12"

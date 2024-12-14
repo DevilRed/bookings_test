@@ -9,11 +9,17 @@ class AppointmentController extends Controller
 {
     public function __invoke(AppointmentRequest $request)
     {
-        \Log::info(
-            $request->only('employee_id', 'service_id', 'starts_at', 'ends_at', 'name', 'email')
-        );
-        /*Appointment::create(
-            $request->only('employee_id', 'service_id', 'starts_at', 'ends_at', 'name', 'email')
-        );*/
+        try {
+            $appointmentData = $request->only('employee_id', 'service_id', 'starts_at', 'ends_at', 'name', 'email');
+
+            // Log the specific data being used to create the appointment
+            \Log::info('Appointment data:', $appointmentData);
+
+            Appointment::create($appointmentData);
+        } catch (\Exception $e) {
+            \Log::error('Appointment creation error: ' . $e->getMessage());
+            dd($e);
+        }
+
     }
 }
