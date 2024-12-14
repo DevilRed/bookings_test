@@ -4,16 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AppointmentRequest;
 use App\Models\Appointment;
+use App\Models\Service;
+use Carbon\Carbon;
 
 class AppointmentController extends Controller
 {
     public function __invoke(AppointmentRequest $request)
     {
         try {
-            $appointmentData = $request->only('employee_id', 'service_id', 'starts_at', 'end_at', 'name', 'email');
+            $service = Service::find($request->service_id);
 
-            // Log the specific data being used to create the appointment
-            \Log::info('Appointment data:', $appointmentData);
+            $appointmentData = $request->only('employee_id', 'service_id', 'name', 'email') + [
+                    'starts_at' => $date = Carbon::parse($request->date)->setTimeFromTimeString($request->time),
+                    // add service duration on start date
+                    'end_at' => $date->copy()->addMinutes($service->duration),
+                ]
+            ;
 
             Appointment::create($appointmentData);
         } catch (\Exception $e) {

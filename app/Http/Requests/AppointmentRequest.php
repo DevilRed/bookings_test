@@ -18,19 +18,6 @@ class AppointmentRequest extends FormRequest
         return true;
     }
 
-    /**
-     * from checkout template date, time are sent
-     * @return void
-     */
-    public function prepareForValidation ()
-    {
-        $service = Service::find($this->service_id);
-        $this->merge([
-            'starts_at' => $date = Carbon::parse($this->date)->setTimeFromTimeString($this->time),
-            // add service duration on start date
-            'end_at' => $date->copy()->addMinutes($service->duration),
-        ]);
-    }
 
     /**
      * Get the validation rules that apply to the request.
