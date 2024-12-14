@@ -147,7 +147,7 @@
                     <input type="text" name="email" id="email" placeholder="Your email address" class="mt-1 bg-slate-100 text-sm border-0 rounded-lg px-6 py-4 w-full" required x-model="form.email" />
                 </div>
 
-                <button type="submit" class="mt-6 py-6, px-6 text-sm border border-slate-200 round-lg flex flex-col items-center justify-center text-center hover:bg-slate-900 cursor-pointer bg-slate-800 text-white font-medium">Make booking</button>
+                <button type="submit" class="mt-6 py-3 px-6 text-sm border border-slate-200 rounded-lg flex flex-col items-center justify-center text-center hover:bg-slate-900 cursor-pointer bg-slate-800 text-white font-medium">Make booking</button>
             </div>
         </div>
     </form>
