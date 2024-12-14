@@ -10,7 +10,7 @@ class AppointmentController extends Controller
     public function __invoke(AppointmentRequest $request)
     {
         try {
-            $appointmentData = $request->only('employee_id', 'service_id', 'starts_at', 'ends_at', 'name', 'email');
+            $appointmentData = $request->only('employee_id', 'service_id', 'starts_at', 'end_at', 'name', 'email');
 
             // Log the specific data being used to create the appointment
             \Log::info('Appointment data:', $appointmentData);

@@ -28,7 +28,7 @@ class AppointmentRequest extends FormRequest
         $this->merge([
             'starts_at' => $date = Carbon::parse($this->date)->setTimeFromTimeString($this->time),
             // add service duration on start date
-            'ends_at' => $date->copy()->addMinutes($service->duration),
+            'end_at' => $date->copy()->addMinutes($service->duration),
         ]);
     }
 
