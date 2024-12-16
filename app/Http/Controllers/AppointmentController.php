@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Bookings\ServiceSlotAvailability;
 use App\Http\Requests\AppointmentRequest;
 use App\Models\Appointment;
+use App\Models\Employee;
 use App\Models\Service;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class AppointmentController extends Controller
 {
@@ -13,6 +16,19 @@ class AppointmentController extends Controller
     {
         try {
             $service = Service::find($request->service_id);
+            $employee = Employee::find($request->employee_id);
+
+            $availability = (new ServiceSlotAvailability(collect([$employee]), $service))
+                ->forPeriod(
+                    Carbon::parse($request->date)->startOfDay(),
+                    Carbon::parse($request->date)->endOfDay(),
+                );
+
+            if(!$availability->first()->containsSlot($request->time)) {
+                return response()->json([
+                    'error' => 'That slot was taken while you were making your booking, please try again'
+                ], 409);
+            }
 
             $appointmentData = $request->only('employee_id', 'service_id', 'name', 'email') + [
                     'starts_at' => $date = Carbon::parse($request->date)->setTimeFromTimeString($request->time),
