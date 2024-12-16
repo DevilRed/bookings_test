@@ -27,10 +27,12 @@
             </div>
         </div>
 
-        <div>
+        <form method="post" action="{{ route('appointments.destroy', $appointment) }}">
+            @csrf
+            @method('DELETE')
             <div class="mt-6">
-                <a href="{{}}" class="text-blue-500">Cancel booking</a>
+                <button class="text-blue-500">Cancel booking</button>
             </div>
-        </div>
+        </form>
     </div>
 </x-app-layout>

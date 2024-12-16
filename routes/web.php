@@ -9,6 +9,7 @@ use App\Http\Controllers\BookingEmployeeController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\SlotController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AppointmentDestroyController;
 
 // fake date for all app to help testing
 \Carbon\Carbon::setTestNow(now()->addDay()->setTimeFromTimeString('09:00:00'));
@@ -19,3 +20,5 @@ Route::get('/checkout/{employee:slug}/{service:slug}', CheckoutController::class
 Route::get('/slots/{employee:slug}/{service:slug}', SlotController::class)->name('slots');
 Route::post('/appointments',AppointmentController::class)->name('appointments');
 Route::get('/confirmation/{appointment:uuid}', ConfirmationController::class)->name('confirmation');
+Route::delete('/appointment/{appointment}', AppointmentDestroyController::class)->name('appointments.destroy');
+
