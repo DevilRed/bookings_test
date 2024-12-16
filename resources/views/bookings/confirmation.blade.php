@@ -27,7 +27,16 @@
             </div>
         </div>
 
-        <form method="post" action="{{ route('appointments.destroy', $appointment) }}">
+        <form
+            method="post"
+            action="{{ route('appointments.destroy', $appointment) }}"
+            x-data
+            x-on:submit.prevent="
+                if(window.confirm('Are you sure?')) {
+                    $el.submit()
+                }
+            "
+        >
             @csrf
             @method('DELETE')
             <div class="mt-6">
