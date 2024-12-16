@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="space-y-12">
         <div>
-            <h2 class="text-xl font-medium mt-3">Thanks, you're booked in!</h2>
+            <h2 class="text-xl font-medium mt-3">{{ !$appointment->cancelled() ? 'Thanks, you\'re booked in!': 'Cancelled' }}</h2>
             <div class="flex mt-6 space-x-3 bg-slate-100 rounded-lg p-4">
             <img src="{{ $appointment->employee->profile_photo_url }}" class="rounded-lg size-14 bg-slate-100">
             <div class="w-full">
@@ -27,21 +27,23 @@
             </div>
         </div>
 
-        <form
-            method="post"
-            action="{{ route('appointments.destroy', $appointment) }}"
-            x-data
-            x-on:submit.prevent="
-                if(window.confirm('Are you sure?')) {
-                    $el.submit()
-                }
-            "
-        >
-            @csrf
-            @method('DELETE')
-            <div class="mt-6">
-                <button class="text-blue-500">Cancel booking</button>
-            </div>
-        </form>
+        @if(!$appointment->cancelled())
+            <form
+                method="post"
+                action="{{ route('appointments.destroy', $appointment) }}"
+                x-data
+                x-on:submit.prevent="
+                    if(window.confirm('Are you sure?')) {
+                        $el.submit()
+                    }
+                "
+            >
+                @csrf
+                @method('DELETE')
+                <div class="mt-6">
+                    <button class="text-blue-500">Cancel booking</button>
+                </div>
+            </form>
+        @endif
     </div>
 </x-app-layout>

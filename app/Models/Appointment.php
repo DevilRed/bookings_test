@@ -30,6 +30,11 @@ class Appointment extends Model
         });
     }
 
+    public function cancelled()
+    {
+        return !is_null($this->cancelled_at);
+    }
+
     public function service()
     {
         return $this->belongsTo(Service::class);
