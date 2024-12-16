@@ -37,7 +37,10 @@ class AppointmentController extends Controller
                 ]
             ;
 
-            Appointment::create($appointmentData);
+            $appointment = Appointment::create($appointmentData);
+            return response()->json([
+                'redirect' => route('confirmation', $appointment)
+            ]);
         } catch (\Exception $e) {
             \Log::error('Appointment creation error: ' . $e->getMessage());
             dd($e);

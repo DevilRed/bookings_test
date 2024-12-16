@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConfirmationController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Employee;
 use App\Models\Service;
@@ -17,3 +18,4 @@ Route::get('/bookings/{employee:slug}', BookingEmployeeController::class)->name(
 Route::get('/checkout/{employee:slug}/{service:slug}', CheckoutController::class)->name('checkout');
 Route::get('/slots/{employee:slug}/{service:slug}', SlotController::class)->name('slots');
 Route::post('/appointments',AppointmentController::class)->name('appointments');
+Route::get('/confirmation/{appointment:uuid}', ConfirmationController::class)->name('confirmation');
