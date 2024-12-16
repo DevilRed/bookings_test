@@ -3,6 +3,7 @@
         {{-- custom event to prevent default behavior --}}
         x-on:submit.prevent="submit"
         x-data="{
+            error: null,
             form: {
                 employee_id: {{ $employee->id }},
                 service_id: {{ $service->id }},
@@ -22,7 +23,7 @@
                     console.log(response.data);
                 })
                 .catch((error) => {
-                    console.error('Error:', error.response ? error.response.data : error);
+                    this.error = error.response.data.error;
                 });
             }
         }"
@@ -135,7 +136,7 @@
         </div>
         <div>
             <h2 class="text-lg font-medium mt-3">3. Your details and book</h2>
-{{--            <div x-show="error" x-text="error" x-cloak class="bg-slate-900 text-white py-4 px-6 rounded-lg mt-3"></div>--}}
+            <div x-show="error" x-text="error" x-cloak class="bg-slate-900 text-white py-4 px-6 rounded-lg mt-3"></div>
 
             <div class="mt-6" x-show="form.time" x-cloak>
                 <div>
